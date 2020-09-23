@@ -40,10 +40,6 @@ monsterSpeed = 7, // px per ms
 moveMonsterDownId;
 let spawnTime = 4000;
 
-function randomInt(min, max) {
-	return max ? Math.round(Math.random() * (max - min) + min): Math.round(Math.random() * min)
-}
-
 function playAudio(audio) {
 	audio.currentTime = 0;
 	audio.play();
@@ -72,6 +68,28 @@ function setAnimDur(elem, durForPixel) {
 	const duration = elemStartBottom * durForPixel
 	elem.style.animationDuration = duration + 'ms'
 }
+
+function randomInt(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+function requestFullScreen(element) {
+	// Supports most browsers and their versions.
+	var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+	if (requestMethod) {
+		// Native full screen.
+		requestMethod.call(element);
+	} else if (typeof window.ActiveXObject !== "undefined") {
+		// Older IE.
+		var wscript = new ActiveXObject("WScript.Shell");
+		if (wscript !== null) {
+			wscript.SendKeys("{F11}");
+		}
+	}
+}
+var elem = document.body; // Make the body go full screen.
+requestFullScreen(elem);
 
 (function startGame() {
 	// handleStars();
@@ -255,17 +273,22 @@ function moveMonsterDown() {
 	const idleMonsters =
 	Array.from(monstersContainer.querySelectorAll(".monster"))
 	.filter(monster => !monster.dataset.animating)
-	const rdmMonster = idleMonsters[randomInt(idleMonsters.length - 1)]
+	const rdmIndex = randomInt(0,
+		idleMonsters.length - 1)
+	const rdmIdleMonster = idleMonsters[rdmIndex]
 
-	if (!rdmMonster) return;
+	if (!rdmIdleMonster) return;
 	if (spawnTime != 2000) spawnTime -= 100;
 
-	//monsterSpeed -= 1
-	idleMonsters.forEach(idleMonster => idleMonster.style.animationDuration = setAnimDur(idleMonster, monsterSpeed) + 'ms')
+	monsterSpeed -= .3
+	idleMonsters.forEach(function(idleMonster, index) {
+		if (index !== rdmIndex) setAnimDur(idleMonster, monsterSpeed)
+	})
 
-	rdmMonster.style.animationDelay = randomInt(3000) + 'ms'
-	rdmMonster.classList.add('move-down')
-	rdmMonster.dataset.animating = 'true'
+	rdmIdleMonster.style.animationDelay = randomInt(0,
+		3000) + 'ms'
+	rdmIdleMonster.classList.add('move-down')
+	rdmIdleMonster.dataset.animating = 'true'
 }
 
 ship.addEventListener("touchstart", function (e) {

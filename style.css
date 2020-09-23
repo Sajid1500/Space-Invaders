@@ -69,13 +69,12 @@ body {
 	bottom: 130px;
 	width: 130px;
 	height: 130px;
-	z-index: 200;
 }
 
 #ship-img {
 	width: 100%;
 	height: 100%;
-	z-index: 100;
+	z-index: 999;
 }
 
 #flame-wrapper {
@@ -83,8 +82,7 @@ body {
 	top: 70%;
 	width: 80px;
 	height: 100px;
-	z-index: -1000;
-	animation: flicker 3ms linear200ms infinite;
+	animation: flicker3ms linear200ms infinite;
 }
 
 #flame {
@@ -117,6 +115,7 @@ body {
 	width: 110px;
 	height: 110px;
 	transform: translateY(-100%);
+	z-index: 100;
 }
 
 .monster__img {
@@ -125,7 +124,7 @@ body {
 }
 
 .move-down {
-	animation: moveDown linear;
+	animation: moveDownlinear;
 }
 
 .monster__health {
@@ -148,7 +147,7 @@ body {
 }
 
 
-@media only screen and (max-height: 500px) {
+@media only screen and (max-height: 600px) {
 	.monster {
 		width: 65px;
 		height: 80px;
