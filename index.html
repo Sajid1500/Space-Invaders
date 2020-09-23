@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="" content="">
+	<title></title>
+	<link rel="stylesheet" href="style.css" type="text/css" />
+	<style id="keyframes">
+@keyframe moveDown {}
+	</style>
+	<link rel="shortcut icon" href="#">
+	<!-- <script src="lib/random-js.min.js"></script>
+																		<script>
+																			// Random is now available as a global (on the window object)
+																			var random = new Random.Random();
+																			alert("Random value from 1 to 100: " + random.integer(1, 100));
+																		</script> -->
+	<script src="main.js" defer type="text/javascript" charset="utf-8"></script>
+
+	<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+	<script>
+		eruda.init()
+	</script>
+</head>
+
+<body>
+	<div id="container" class="u-center-xy">
+		<div id="background"></div>
+		<div id="player-health" class="u-center-xy">
+			<div id="player-health__heart"></div>
+			<span id="player-health__lives">50000</span>
+		</div>
+		<div id="scoreboard" class="u-center-xy">
+			<span id="scoreboard__text">SCORE</span>
+			<span id="scoreboard__score">00</span>
+		</div>
+		<div id="monsters-container">
+			<div data-animating class='monster u-center-x'>
+				<img class="monster__img" src="images/monster.svg" alt="" />
+				<div class="monster__health">
+					<div data-health='100' class="monster__health__bar"></div>
+				</div>
+			</div>
+		</div>
+		<div id="ship" class="u-center-x">
+			<img id="ship-img" src="images/ship.svg" alt="" />
+			<div id="flame-wrapper" class="u-center-x">
+				<div id="flame"></div>
+			</div>
+			<div id="bullets-container" class="u-center-x">
+				<div data-transitioning class="bullet"></div>
+				<div data-transitioning class="bullet"></div>
+				<div data-transitioning class="bullet"></div>
+				<div data-transitioning class="bullet"></div>
+				<div data-transitioning class="bullet"></div>
+			</div>
+		</div>
+	</div>
+	<!-- all audios -->
+	<audio id="shoot-sound" src="audios/shoot.wav"></audio>
+	<!-- <audio id="music" src="audios/music.wav"></audio> -->
+	<audio id="monster-killed-sound" src="audios/monsterKilled.wav"></audio>
+	<audio id="heart-lost-sound" src="audios/heartLosed.wav"></audio>
+	<audio id="game-over-sound" src="audios/gameOver.wav"></audio>
+	<!-- <audio id="button-clicked-sound" src="audios/buttonClicked.wav"></audio> -->
+	<!--          --->
+</body>
+
+</html>
