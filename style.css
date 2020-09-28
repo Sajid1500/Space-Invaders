@@ -5,7 +5,7 @@ body {
 	height: 100vh;
 	width: 100vw;
 	margin: 0;
-	background: black;
+	background-color: yellow;
 	color: white;
 }
 
@@ -16,7 +16,7 @@ body {
 	position: relative;
 	overflow: hidden;
 	background: url(images/background.png) repeat;
-	animation: STAR-MOVE5s linear infinite;
+	animation: STAR-MOVE 5s linear infinite;
 }
 
 .shake {
@@ -80,9 +80,9 @@ body {
 #flame-wrapper {
 	position: absolute;
 	top: 70%;
-	width: 80px;
-	height: 100px;
-	animation: flicker3ms linear200ms infinite;
+	width: 70%;
+	height: 70%;
+	animation: flicker 3ms linear 200ms infinite;
 }
 
 #flame {
@@ -164,7 +164,7 @@ body {
 	}
 }
 
-@-webkit-keyframes STAR-MOVE {
+@keyframes STAR-MOVE {
 	to {
 		background-position-y: 600%;
 	}

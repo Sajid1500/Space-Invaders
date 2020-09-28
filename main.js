@@ -295,7 +295,7 @@ ship.addEventListener("touchstart", function (e) {
 	// check for cheaters and shoot only after idleBullet has finished travelling its distance
 	if (!e.isTrusted) return;
 	shipOffsetX = e.targetTouches[0].clientX - ship.getBoundingClientRect().left
-	debounce(shoot, firetime, true)();
+	debouncedShoot();
 	fingerOnShip = true;
 });
 ship.addEventListener("touchend", () => (fingerOnShip = false));
