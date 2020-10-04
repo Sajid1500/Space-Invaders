@@ -21,7 +21,6 @@ const containerLeft = container.offsetLeft;
 const containerTop = container.offsetTop;
 const exBulletEndY = exBullet.getBoundingClientRect().bottom - containerTop;
 
-const music = document.querySelector("#music");
 const scoreDiv = document.querySelector("#scoreboard__score");
 const heart = document.querySelector("#player-health__heart");
 const playerLives = document.querySelector("#player-health__lives");
@@ -30,15 +29,11 @@ const firetime = 300; //ms
 // Define the debounced function
 const debouncedShoot = debounce(shoot, firetime, true);
 
-//music.play()
-//music.sound = 0.7;
-//music.loop = true;
-
 let fingerOnShip,
   shipOffsetX,
   monsterSpeed = 7, // px per ms
-  moveMonsterDownId;
-let spawnTime = 5000;
+  moveMonsterDownId,
+  spawnTime = 5000;
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -93,7 +88,7 @@ function requestFullScreen(element) {
   }
 }
 var elem = document.body; // Make the body go full screen.
-requestFullScreen(elem);
+// requestFullScreen(elem);
 
 (function startGame() {
   const heartLossedSound = document.querySelector("#heart-lost-sound");
@@ -125,11 +120,11 @@ function moveShip(e) {
 
   activeBullets.forEach(
     (activeBullet) =>
-      (activeBullet.style.left =
-        activeBullet.getBoundingClientRect().left -
-        containerLeft -
-        nextShipX +
-        "px")
+    (activeBullet.style.left =
+      activeBullet.getBoundingClientRect().left -
+      containerLeft -
+      nextShipX +
+      "px")
   );
 
   ship.style.left = nextShipX + "px";
