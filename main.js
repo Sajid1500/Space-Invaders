@@ -31,9 +31,10 @@ const debouncedShoot = debounce(shoot, firetime, true);
 
 let fingerOnShip,
   shipOffsetX,
-  monsterSpeed = 7, // px per ms
+  monsterSpeed = 12, // px per ms
   moveMonsterDownId,
-  spawnTime = 5000;
+  bulletDmg = 30,
+  spawnTime = 4500;
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -62,9 +63,8 @@ function debounce(func, wait, immediate) {
 }
 
 function setAnimDur(elem, durForPixel) {
-  const elemStartBottom =
-    containerHeight - (elem.getBoundingClientRect().top - containerTop);
-  const duration = elemStartBottom * durForPixel;
+  const elemStartBottom = containerHeight + exMonsterHeight * 2;
+  const duration = elemStartBottom * (640 / containerHeight) * durForPixel;
   elem.style.animationDuration = duration + "ms";
 }
 
@@ -97,8 +97,7 @@ var elem = document.body; // Make the body go full screen.
 	to {
 	transform: translateY(${containerHeight}px)
 	}
-	}`;
-
+  }`;
   heartLossedSound.addEventListener(
     "loadedmetadata",
     () => (heart.style.animationDuration = heartLossedSound.duration + "s")
@@ -120,11 +119,11 @@ function moveShip(e) {
 
   activeBullets.forEach(
     (activeBullet) =>
-    (activeBullet.style.left =
-      activeBullet.getBoundingClientRect().left -
-      containerLeft -
-      nextShipX +
-      "px")
+      (activeBullet.style.left =
+        activeBullet.getBoundingClientRect().left -
+        containerLeft -
+        nextShipX +
+        "px")
   );
 
   ship.style.left = nextShipX + "px";
@@ -181,13 +180,15 @@ function shoot() {
 
   if (alignedMonster) {
     const alignedMonsterEndY =
-      alignedMonster.getBoundingClientRect().bottom - containerTop;
+      alignedMonster.getBoundingClientRect().bottom +
+      window.pageYOffset -
+      containerTop;
     // distance from 1/4 of monster to idleBullet
     distance = exBulletEndY - alignedMonsterEndY + exMonsterHeight / 3;
   }
-
+  console.log(containerHeight);
   // 2.45ms should be taken to travell each pixel
-  transDur = distance * 0.45;
+  transDur = distance * (640 / containerHeight) * 0.45;
 
   idleBullet.style.transitionDuration = transDur + "ms";
   idleBullet.style.transform = `translateY(${-distance}px)`;
@@ -203,14 +204,18 @@ function shoot() {
 function reduceMonsterHealth(monster) {
   const monsterHealth = monster.querySelector(".monster__health");
   const monsterHealthBar = monster.querySelector(".monster__health__bar");
+  let monsterHealthInt = monsterHealthBar.dataset.health;
   let scoreInt = scoreDiv.innerText;
 
   monsterHealth.style.opacity = 1;
-  monsterHealthBar.dataset.health -= 10;
-  monsterHealthBar.style.width = monsterHealthBar.dataset.health + "%";
+  monsterHealthInt -= bulletDmg;
+  monsterHealthBar.dataset.health = monsterHealthInt;
+  monsterHealthBar.style.width =
+    (monsterHealthInt < 0 ? 0 : monsterHealthInt) + "%";
 
-  if (monsterHealthBar.dataset.health === "0") {
+  if (monsterHealthInt <= 0) {
     playAudio(document.querySelector("#monster-killed-sound"));
+    decBltDmg();
     setMonster(monster);
     ++scoreInt;
     scoreDiv.innerText = scoreInt < 10 ? "0" + scoreInt : scoreInt;
@@ -229,12 +234,15 @@ function resetBullet(activeBullet) {
 
 /* monster part */
 
-function createMonster() {
-  const newMonster = exMonster.cloneNode(true);
+function decBltDmg() {
+  if (!(bulletDmg <= 10)) bulletDmg -= 0.2;
+}
 
-  newMonster.addEventListener("animationend", function (e) {
+function addMonsterListener(monster) {
+  monster.addEventListener("animationend", function (e) {
     playAudio(document.querySelector("#heart-lost-sound"));
-    newMonster.dataset.animating = "";
+    decBltDmg();
+    monster.dataset.animating = "";
     heart.classList.add("shake");
     heart.addEventListener("animationend", () =>
       heart.classList.remove("shake")
@@ -252,19 +260,21 @@ function createMonster() {
       );
       return;
     }
-    setMonster(newMonster);
+    setMonster(monster);
   });
-  return newMonster;
+  return monster;
 }
-
 function handleMonster() {
   const totalMonsters = 5;
   let i = monstersContainer.children.length;
+  addMonsterListener(exMonster);
   setMonster(exMonster);
+
   while (i < totalMonsters) {
-    const monster = createMonster();
-    setMonster(monster);
-    monstersContainer.appendChild(monster);
+    const newMonster = exMonster.cloneNode(true);
+    addMonsterListener(exMonster);
+    setMonster(newMonster);
+    monstersContainer.appendChild(newMonster);
     i++;
   }
 }

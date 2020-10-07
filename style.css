@@ -8,10 +8,10 @@ body {
 }
 
 #container {
-  width: 100vh;
+  width: 100vw;
   height: 100vh;
-  max-width: 768px;
-  max-height: 1024px;
+  min-height: 100vw;
+  max-width: 100vh;
   position: relative;
   overflow: hidden;
   background: url(images/background.png) repeat;
@@ -41,7 +41,7 @@ body {
   position: absolute;
   top: 20px;
   left: 20px;
-  width: 6%;
+  width: 8%;
   z-index: 9999;
 }
 
@@ -51,7 +51,7 @@ body {
 
 #player-health__lives {
   position: absolute;
-  font-size: 120%;
+  font-size: 3vmin;
   font-weight: 900;
 }
 
@@ -60,7 +60,7 @@ body {
   right: 20px;
   top: 20px;
   flex-direction: column;
-  font-size: 200%;
+  font-size: 6vmin;
   font-weight: 400;
   z-index: 9999;
 }
@@ -112,7 +112,7 @@ body {
   margin-bottom: 5px;
   background: rgba(255, 212, 202, 0.37);
   border-radius: 3px;
-  opacity: 1;
+  opacity: 0;
   transition: opacity 50ms linear;
 }
 
