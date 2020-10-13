@@ -180,15 +180,12 @@ function shoot() {
 
   if (alignedMonster) {
     const alignedMonsterEndY =
-      alignedMonster.getBoundingClientRect().bottom +
-      window.pageYOffset -
-      containerTop;
+      alignedMonster.getBoundingClientRect().bottom - containerTop;
     // distance from 1/4 of monster to idleBullet
     distance = exBulletEndY - alignedMonsterEndY + exMonsterHeight / 3;
   }
-  console.log(containerHeight);
   // 2.45ms should be taken to travell each pixel
-  transDur = distance * (640 / containerHeight) * 0.45;
+  transDur = distance * (640 / containerHeight) * 0.95;
 
   idleBullet.style.transitionDuration = transDur + "ms";
   idleBullet.style.transform = `translateY(${-distance}px)`;
