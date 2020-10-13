@@ -25,7 +25,7 @@ const scoreDiv = document.querySelector("#scoreboard__score");
 const heart = document.querySelector("#player-health__heart");
 const playerLives = document.querySelector("#player-health__lives");
 // time taken to fire each bullet
-const firetime = 300; //ms
+const firetime = 400; //ms
 // Define the debounced function
 const debouncedShoot = debounce(shoot, firetime, true);
 
@@ -185,7 +185,7 @@ function shoot() {
     distance = exBulletEndY - alignedMonsterEndY + exMonsterHeight / 3;
   }
   // 2.45ms should be taken to travell each pixel
-  transDur = distance * (640 / containerHeight) * 0.95;
+  transDur = distance * (640 / containerHeight) * 1.25;
 
   idleBullet.style.transitionDuration = transDur + "ms";
   idleBullet.style.transform = `translateY(${-distance}px)`;
