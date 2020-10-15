@@ -213,7 +213,7 @@ function resetBullet(activeBullet) {
 /* monster part */
 
 function decBltDmg() {
-  if (!(bulletDmg <= 10)) bulletDmg -= 0.2;
+  if (!(bulletDmg <= 10)) bulletDmg -= 0.6;
 }
 
 function addMonsterListener(monster) {
@@ -276,7 +276,7 @@ function moveMonsterDown() {
   ).filter((monster) => !monster.dataset.animating);
   const rdmIndex = randomInt(0, idleMonsters.length - 1);
   const rdmIdleMonster = idleMonsters[rdmIndex];
-
+console.log(bulletDmg)
   if (!rdmIdleMonster) return;
   if (spawnTime != 2000) spawnTime -= 50;
 
