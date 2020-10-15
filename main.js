@@ -34,6 +34,7 @@ let fingerOnShip,
   monsterSpeed = 12, // px per ms
   moveMonsterDownId,
   bulletDmg = 30,
+  maxMonsterDelay = 3000,
   spawnTime = 4500;
 
 function randomInt(min, max) {
@@ -185,7 +186,7 @@ function shoot() {
     distance = exBulletEndY - alignedMonsterEndY + exMonsterHeight / 3;
   }
   // 2.45ms should be taken to travell each pixel
-  transDur = distance * (640 / containerHeight) * 1.25;
+  transDur = distance * (640 / containerHeight) * 1.45;
 
   idleBullet.style.transitionDuration = transDur + "ms";
   idleBullet.style.transform = `translateY(${-distance}px)`;
@@ -304,7 +305,7 @@ function moveMonsterDown() {
     if (index !== rdmIndex) setAnimDur(idleMonster, monsterSpeed);
   });
 
-  rdmIdleMonster.style.animationDelay = randomInt(300, 3000) + "ms";
+  rdmIdleMonster.style.animationDelay = randomInt(300, maxMonsterDelay-=100) + "ms";
   rdmIdleMonster.classList.add("move-down");
   rdmIdleMonster.dataset.animating = "true";
 }
