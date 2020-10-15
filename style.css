@@ -2,19 +2,30 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  width: 100vw;
+  height: 100vh;
   margin: 0;
-  background-color: violet;
+  background-color: black;
   color: white;
 }
 
 #container {
-  width: 100vw;
-  height: 100vh;
-  max-width: 100vh;
   position: relative;
+  visibility: hidden;
+  width: 100%;
+  height: 100%;
+  max-width: 100vh;
   overflow: hidden;
-  background: url(images/background.png) repeat;
-  animation: STAR-MOVE 5s linear infinite;
+  background: url(images/background.png) 400% repeat;
+  animation: STAR-MOVE linear infinite;
+}
+
+#play {
+  position: absolute;
+  align-self: center;
+  border: none;
+  background: purple;
+  outline: none;
 }
 
 .move-down {

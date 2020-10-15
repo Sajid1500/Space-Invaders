@@ -1,5 +1,6 @@
 /* initial values */
 const container = document.querySelector("#container");
+const play = document.querySelector("#play");
 const ship = document.querySelector("#ship");
 const bullets = Array.from(document.querySelectorAll(".bullet"));
 const exBullet = bullets[0];
@@ -46,6 +47,12 @@ function playAudio(audio) {
   audio.play();
 }
 
+function setAnimDur(elem, durForPixel) {
+  const elemStartBottom = containerHeight + exMonsterHeight * 2;
+  const duration = elemStartBottom * (640 / containerHeight) * durForPixel;
+  elem.style.animationDuration = duration + "ms";
+}
+
 function debounce(func, wait, immediate) {
   var timeout;
   return function () {
@@ -63,35 +70,7 @@ function debounce(func, wait, immediate) {
   };
 }
 
-function setAnimDur(elem, durForPixel) {
-  const elemStartBottom = containerHeight + exMonsterHeight * 2;
-  const duration = elemStartBottom * (640 / containerHeight) * durForPixel;
-  elem.style.animationDuration = duration + "ms";
-}
-
-function requestFullScreen(element) {
-  // Supports most browsers and their versions.
-  var requestMethod =
-    element.requestFullScreen ||
-    element.webkitRequestFullScreen ||
-    element.mozRequestFullScreen ||
-    element.msRequestFullScreen;
-
-  if (requestMethod) {
-    // Native full screen.
-    requestMethod.call(element);
-  } else if (typeof window.ActiveXObject !== "undefined") {
-    // Older IE.
-    var wscript = new ActiveXObject("WScript.Shell");
-    if (wscript !== null) {
-      wscript.SendKeys("{F11}");
-    }
-  }
-}
-var elem = document.body; // Make the body go full screen.
-// requestFullScreen(elem);
-
-(function startGame() {
+function startGame() {
   const heartLossedSound = document.querySelector("#heart-lost-sound");
   moveMonsterDownId = setInterval(moveMonsterDown, spawnTime);
   document.querySelector("#keyframes").innerHTML = `@keyframes moveDown {
@@ -99,6 +78,7 @@ var elem = document.body; // Make the body go full screen.
 	transform: translateY(${containerHeight}px)
 	}
   }`;
+  container.style.animationDuration = containerHeight / 640 * 2000 + 'ms'
   heartLossedSound.addEventListener(
     "loadedmetadata",
     () => (heart.style.animationDuration = heartLossedSound.duration + "s")
@@ -106,10 +86,10 @@ var elem = document.body; // Make the body go full screen.
 
   setAnimDur(exMonster, monsterSpeed);
   handleMonster();
-})();
+  //alert("click ok to continue")
+};
 
 function moveShip(e) {
-  //console.log(e.targetTouches[0])
   const activeBullets = Array.from(document.querySelectorAll(".bullet")).filter(
     (bullet) => bullet.dataset.transitioning
   );
@@ -309,6 +289,11 @@ function moveMonsterDown() {
   rdmIdleMonster.classList.add("move-down");
   rdmIdleMonster.dataset.animating = "true";
 }
+
+play.addEventListener('click', function () {
+  container.style.visibility = "visible";
+  startGame()
+})
 
 ship.addEventListener("touchstart", function (e) {
   // check for cheaters
